@@ -1,0 +1,6 @@
+@SkinDatabase_HostAddress = http://localhost:5110
+
+GET {{SkinDatabase_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
