@@ -1,17 +1,20 @@
 import NavItem from "./NavItem";
-import { css } from "@emotion/react";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+
+const MyBox = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  marginBottom: "200px",
+});
 
 function NavBar() {
   return (
-    <div
-      css={css`
-        padding: 32px;
-      `}
-    >
+    <MyBox>
       <NavItem link="./"> Home</NavItem>
-      <NavItem link="./Explore">Explore </NavItem>
+      <NavItem link="./Explore">Explore</NavItem>
       <NavItem link="./Create">Create </NavItem>
-    </div>
+    </MyBox>
   );
 }
 

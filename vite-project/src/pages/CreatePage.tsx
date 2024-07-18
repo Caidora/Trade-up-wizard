@@ -1,6 +1,6 @@
 import NavBar from "../components/NavBar";
 
-const LoginPage = () => {
+const CreatePage = () => {
   return (
     <div>
       <NavBar></NavBar>
@@ -8,4 +8,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default CreatePage;
