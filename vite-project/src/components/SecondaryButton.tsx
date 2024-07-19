@@ -20,7 +20,13 @@ export default function SecondaryButton({ children, bColour, link }: Props) {
     <StyledButton
       disableRipple
       href={link}
-      sx={{ bgcolor: "white", borderColor: bColour }}
+      sx={{
+        bgcolor: "white",
+        borderColor: bColour,
+        ":hover": {
+          color: "#121212",
+        },
+      }}
       variant="outlined"
     >
       {children}
