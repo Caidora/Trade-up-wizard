@@ -1,5 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
+import Collapse from "@mui/material/Collapse";
 import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 import TextField from "@mui/material/TextField";
@@ -22,6 +24,9 @@ interface Props {
   submitFunction: Function;
   setUser: Function;
   setPassword: Function;
+  borderWidth?: boolean;
+  errorMessage?: string;
+  open?: boolean;
 }
 
 export default function ActionBox({
@@ -31,6 +36,8 @@ export default function ActionBox({
   submitFunction,
   setUser,
   setPassword,
+  borderWidth,
+  errorMessage,
 }: Props) {
   return (
     <MyBox>
@@ -44,6 +51,7 @@ export default function ActionBox({
       </Typography>
       <Box>
         <TextField
+          error={borderWidth}
           margin="normal"
           label="Username"
           variant="filled"
@@ -52,13 +60,16 @@ export default function ActionBox({
       </Box>
       <Box>
         <TextField
+          error={borderWidth}
           margin="normal"
           type="password"
           label="Password"
           variant="filled"
+          helperText={errorMessage}
           onChange={(e) => setPassword(e.target.value)}
         ></TextField>
       </Box>
+
       <Box marginTop="30px" marginBottom="30px">
         <PrimaryButton
           left="45px"
