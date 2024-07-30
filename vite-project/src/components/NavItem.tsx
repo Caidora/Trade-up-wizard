@@ -1,10 +1,13 @@
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
+import { MouseEventHandler } from "react";
 
 interface Props {
   children: string;
-  link: string;
+  link?: string;
   spacing?: string;
+  Padding?: string;
+  onPress?: MouseEventHandler;
 }
 
 const MyButton = styled(Button)({
@@ -12,9 +15,14 @@ const MyButton = styled(Button)({
   padding: "15px",
 });
 
-function NavItem({ children, link, spacing }: Props) {
+function NavItem({ children, link, spacing, Padding, onPress }: Props) {
   return (
-    <MyButton sx={{ marginLeft: spacing }} disableRipple href={link}>
+    <MyButton
+      sx={{ marginLeft: spacing, padding: Padding }}
+      disableRipple
+      href={link}
+      onClick={onPress}
+    >
       {children}
     </MyButton>
   );
