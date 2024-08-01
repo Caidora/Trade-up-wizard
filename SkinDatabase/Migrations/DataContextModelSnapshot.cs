@@ -16,6 +16,20 @@ namespace SkinDatabase.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
 
+            modelBuilder.Entity("SkinDatabase.Models.Collection", b =>
+                {
+                    b.Property<string>("CollectionName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CollectionName");
+
+                    b.ToTable("Collections");
+                });
+
             modelBuilder.Entity("SkinDatabase.Models.Contract", b =>
                 {
                     b.Property<int>("contractID")
@@ -79,8 +93,22 @@ namespace SkinDatabase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("collectionID")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("collectionName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("imageUrl")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("maxfloat")
+                        .HasMaxLength(20)
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("minfloat")
+                        .HasMaxLength(20)
+                        .HasColumnType("REAL");
 
                     b.Property<string>("rarity")
                         .IsRequired()

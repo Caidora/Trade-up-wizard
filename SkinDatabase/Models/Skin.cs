@@ -13,11 +13,23 @@ namespace SkinDatabase.Models
         public string skinName { get; set; } = string.Empty;
 
         [Required]
-        public int collectionID { get; set; }
+        public string collectionName { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(20)]
         public string rarity { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(20)]
+        public double minfloat { get; set; } = 0.0;
+
+        [Required]
+        [MaxLength(20)]
+        public double maxfloat { get; set; } = 1.0;
+
+        [Required]
+        [MaxLength(20)]
+        public string imageUrl { get; set; } = string.Empty;
 
     }
 }

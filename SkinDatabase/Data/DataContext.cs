@@ -17,7 +17,7 @@ namespace SkinDatabase.Data
         public DbSet<ContractToSkin> ContractToSkins { get; set; }
         public DbSet<Follow> Follows { get; set; }
         public DbSet<Skin> Skins { get; set; }
-
+        public DbSet<Collection> Collections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite("Data Source=./SkinsDB.db");
     }

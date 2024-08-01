@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using SkinDatabase.Data;
 using SkinDatabase.Models;
 using SQLitePCL;
+using SkinDatabase.Repository;
+using SkinDatabase.Interfaces;
 
 namespace SkinDatabase.Controllers
 {
@@ -11,41 +13,79 @@ namespace SkinDatabase.Controllers
     [ApiController]
     public class DataController : ControllerBase
     {
-        private readonly DataContext _context;
-        public DataController(DataContext context) 
+
+        private readonly IDatabaseRepository _DbRepository;
+        public DataController(IDatabaseRepository DbRepository) 
         {
-            _context = context;
+
+            _DbRepository = DbRepository;
         } 
 
         [HttpPost]
         public async Task<ActionResult<User>> AddUser(User user)
         {
-            _context.Users.Add(user);
+            try 
+            {
+                User DBUser = await _DbRepository.GetUserByUsername(user.Username);
 
-            await _context.SaveChangesAsync();
+                return BadRequest("This Username is already taken");
+            }catch (Exception ex) 
+            {
+                await _DbRepository.AddUser(user);
 
-            return Ok(user);
+                return Ok(user);
+            }
 
 
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<List<User>>> GetUsers()
-        {
-            return Ok(await _context.Users.ToListAsync());
         }
 
         [HttpGet("{username}")]
         public async Task<ActionResult<List<User>>> GetUser(string username)
         {
+            try
+            {
+                var character = await _DbRepository.GetUserByUsername(username);
+                return Ok(character);
+            }
+            catch (ArgumentException e)
+            {
 
-            var character = await _context.Users.FirstOrDefaultAsync(User => User.Username == username);
-            if (character == null){
-                return BadRequest("user not found");
+                return BadRequest(String.Format("{0}: {1}", e.GetType().Name, e.Message));
 
             }
 
-            return Ok(character);
+            
         }
+        [Route("Login")]
+        [HttpPost]
+        public async Task<ActionResult<int>> LoginUser(User user)
+        {
+            User DBUser;
+
+            try
+            {
+                DBUser = await _DbRepository.GetUserByUsername(user.Username);
+            }
+            catch (ArgumentException e)
+            {
+
+                return BadRequest("Invalid Username or Password");
+
+            }
+
+            if (DBUser.Password == user.Password)
+            {
+                return Ok(user.Username);
+
+            }
+            else
+            {
+                return BadRequest("Invalid Username or Password");
+            }
+
+            
+        }
+
+
     }
 }
