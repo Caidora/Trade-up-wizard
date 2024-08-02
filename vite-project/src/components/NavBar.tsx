@@ -7,11 +7,12 @@ const NavBox = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
   marginBottom: "50px",
+  padding: "1rem",
+  backgroundColor: "#202020",
 });
 const TopRightBox = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
-  marginBottom: "50px",
 });
 
 interface Props {
@@ -26,9 +27,7 @@ function NavBar({ loggedIn, username, onPress }: Props) {
       <NavItem link="./"> Home</NavItem>
       <TopRightBox>
         <NavItem link="./Explore">Explore</NavItem>
-        <NavItem spacing="50px" link="./Create">
-          Create
-        </NavItem>
+        <NavItem link="./Create">Create</NavItem>
         {loggedIn == true && (
           <Box display="block">
             <Typography>Welcome {username}</Typography>

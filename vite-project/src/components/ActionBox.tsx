@@ -13,7 +13,7 @@ const MyBox = styled(Box)({
   flexDirection: "column",
   width: "50%",
   marginLeft: "25%",
-  backgroundColor: "#D9D9D9",
+  backgroundColor: "#121212",
   borderRadius: "37px",
 });
 
@@ -41,12 +41,7 @@ export default function ActionBox({
 }: Props) {
   return (
     <MyBox>
-      <Typography
-        marginTop="30px"
-        marginBottom="20px"
-        color="#121212"
-        variant="h2"
-      >
+      <Typography marginTop="0.5rem" marginBottom="20px" variant="h2">
         {title}
       </Typography>
       <Box>
@@ -71,12 +66,7 @@ export default function ActionBox({
       </Box>
 
       <Box marginTop="30px" marginBottom="30px">
-        <PrimaryButton
-          left="45px"
-          padding="35px"
-          bColour="secondary.main"
-          submitFunction={submitFunction}
-        >
+        <PrimaryButton bColour="secondary.main" submitFunction={submitFunction}>
           {priButton}
         </PrimaryButton>
       </Box>
