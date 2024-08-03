@@ -1,6 +1,7 @@
 import NavBar from "../components/NavBar";
 import PrimaryButton from "../components/PrimaryButton";
 import { useState } from "react";
+import react from "react";
 import {
   Box,
   Typography,
@@ -37,16 +38,29 @@ const styledCheckbox = styled(Checkbox)({});
 
 const CreatePage = () => {
   const [statTrak, setStatTrak] = useState("0");
-  const [rarity, setRarity] = useState("None");
+  const [rarity, setRarity] = useState("");
   const [steamTax, setSteamTax] = useState("0");
+  const [inProcess, setInProcess] = useState(0);
+
+  if (localStorage.getItem("InProcess") == "1" && inProcess == 0) {
+    setInProcess(1);
+  }
 
   const handleSubmit = () => {
     console.log("submitted");
-
+    setInProcess(1);
     localStorage.setItem("InProcess", "1");
     localStorage.setItem("statTrak", statTrak);
     localStorage.setItem("rarity", rarity);
     localStorage.setItem("steamTax", steamTax);
+  };
+
+  const clearDraft = () => {
+    localStorage.removeItem("InProcess");
+    setInProcess(0);
+    localStorage.removeItem("statTrak");
+    localStorage.removeItem("rarity");
+    localStorage.removeItem("steamTax");
   };
 
   function toggleValue(fun: Function, value: string) {
@@ -56,7 +70,7 @@ const CreatePage = () => {
       fun("0");
     }
   }
-  if (localStorage.getItem("InProcess") == null) {
+  if (!inProcess) {
     return (
       <div>
         <NavBar></NavBar>
@@ -86,6 +100,8 @@ const CreatePage = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   label="Rarity"
+                  value={rarity}
+                  onChange={(e) => setRarity(e.target.value)}
                   sx={{
                     color: "white",
                     muiInputLabel: {
@@ -166,6 +182,7 @@ const CreatePage = () => {
     return (
       <>
         <NavBar></NavBar>
+        <PrimaryButton submitFunction={clearDraft}>Clear Draft</PrimaryButton>
       </>
     );
   }
