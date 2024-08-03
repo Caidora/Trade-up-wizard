@@ -4,7 +4,6 @@ import SecondaryButton from "../components/SecondaryButton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
-
 import { styled } from "@mui/material/styles";
 import NavItem from "../components/NavItem";
 
@@ -29,15 +28,10 @@ const ColumnBox = styled(Box)({
 });
 
 const DefaultPage = () => {
-  let navigate = useNavigate();
   const welcomeMessage =
     "This app is your ultimate companion for creating and managing trade-ups in the popular games CS2 and CSGO. With Trade Up Wizard, you can easily create an account, log in, and start crafting your own trade-ups. Whether you're a seasoned player looking to optimize your inventory or a newcomer wanting to understand the trade-up process, our app provides all the tools you need. Track your progress, explore various trade-up options, and enhance your gaming experience with Trade Up Wizard. Happy trading!";
-  const userName = localStorage.getItem("User");
 
-  const handleClick = () => {
-    localStorage.removeItem("User");
-    navigate("/", { replace: true });
-  };
+  const userName = localStorage.getItem("User");
 
   if (userName == null) {
     return (
@@ -74,11 +68,7 @@ const DefaultPage = () => {
   } else {
     return (
       <MyBox>
-        <NavBar
-          loggedIn={true}
-          username={userName}
-          onPress={handleClick}
-        ></NavBar>{" "}
+        <NavBar></NavBar>{" "}
         <Typography marginTop="30px" marginBottom="20px" variant="h1">
           Welcome {userName}!
         </Typography>

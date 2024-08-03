@@ -3,25 +3,29 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { MouseEventHandler } from "react";
+
+import { useNavigate } from "react-router-dom";
 const NavBox = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
-  marginBottom: "50px",
   padding: "1rem",
-  backgroundColor: "#202020",
 });
 const TopRightBox = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
 });
 
-interface Props {
-  loggedIn?: boolean;
-  username?: string;
-  onPress?: MouseEventHandler;
-}
-
-function NavBar({ loggedIn, username, onPress }: Props) {
+function NavBar() {
+  let navigate = useNavigate();
+  const userName = localStorage.getItem("User");
+  var loggedIn = false;
+  if (userName != null) {
+    loggedIn = true;
+  }
+  const handleClick = () => {
+    localStorage.removeItem("User");
+    navigate("/", { replace: true });
+  };
   return (
     <NavBox>
       <NavItem link="./"> Home</NavItem>
@@ -30,8 +34,8 @@ function NavBar({ loggedIn, username, onPress }: Props) {
         <NavItem link="./Create">Create</NavItem>
         {loggedIn == true && (
           <Box display="block">
-            <Typography>Welcome {username}</Typography>
-            <NavItem Padding="0px" spacing="0px" onPress={onPress}>
+            <Typography>Welcome {userName}</Typography>
+            <NavItem Padding="0px" spacing="0px" onPress={handleClick}>
               Log Out?
             </NavItem>
           </Box>

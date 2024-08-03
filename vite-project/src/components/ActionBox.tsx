@@ -13,7 +13,7 @@ const MyBox = styled(Box)({
   flexDirection: "column",
   width: "50%",
   marginLeft: "25%",
-  backgroundColor: "#121212",
+  marginTop: "50px",
   borderRadius: "37px",
 });
 

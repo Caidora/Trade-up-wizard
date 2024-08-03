@@ -1,9 +1,10 @@
 import NavBar from "../components/NavBar";
 import PrimaryButton from "../components/PrimaryButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import react from "react";
-import SkinBox from "../components/SkinBox";
-import Grid from "@mui/material/Grid";
+import SkinGrid from "../components/SkinGrid";
+import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -13,7 +14,9 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  ScopedCssBaseline,
 } from "@mui/material/";
+import SecondaryButton from "../components/SecondaryButton";
 
 const MyBox = styled(Box)({
   display: "block",
@@ -37,37 +40,80 @@ const ToggleGrouping = styled(Box)({
   justifyContent: "space-between",
 });
 
+const startingSkins = [
+  { empty: true, key: 0, skinName: "" },
+  { empty: true, key: 1, skinName: "" },
+  { empty: true, key: 2, skinName: "" },
+  { empty: true, key: 3, skinName: "" },
+  { empty: true, key: 4, skinName: "" },
+  { empty: true, key: 5, skinName: "" },
+  { empty: true, key: 6, skinName: "" },
+  { empty: true, key: 7, skinName: "" },
+  { empty: true, key: 8, skinName: "" },
+  { empty: true, key: 9, skinName: "" },
+];
+
 const styledCheckbox = styled(Checkbox)({});
 
 const CreatePage = () => {
   const [statTrak, setStatTrak] = useState("0");
+  const [displayError, setDisplayError] = useState(false);
   const [rarity, setRarity] = useState("");
   const [steamTax, setSteamTax] = useState("0");
   const [inProcess, setInProcess] = useState(0);
+  const [title, setTitle] = useState("");
+  let navigate = useNavigate();
+  const [borderWidth, setBorderWidth] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const [skinsSelected, setskinsSelected] = useState([
-    { empty: true, key: 0, skinName: "" },
-    { empty: true, key: 1, skinName: "" },
-    { empty: true, key: 2, skinName: "" },
-    { empty: true, key: 3, skinName: "" },
-    { empty: true, key: 4, skinName: "" },
-    { empty: true, key: 5, skinName: "" },
-    { empty: true, key: 6, skinName: "" },
-    { empty: true, key: 7, skinName: "" },
-    { empty: true, key: 8, skinName: "" },
-    { empty: true, key: 9, skinName: "" },
-  ]);
+  const [skinsSelected, setskinsSelected] = useState(startingSkins);
   if (localStorage.getItem("InProcess") == "1" && inProcess == 0) {
     setInProcess(1);
+    let inMemRarity = localStorage.getItem("rarity");
+    if (inMemRarity != null) {
+      setRarity(inMemRarity);
+    }
+    let inMemstatTrak = localStorage.getItem("statTrak");
+    if (inMemstatTrak != null) {
+      setStatTrak(inMemstatTrak);
+    }
+    let inMemSteamTax = localStorage.getItem("steamTax");
+    if (inMemSteamTax != null) {
+      setSteamTax(inMemSteamTax);
+    }
+    let inMemTitle = localStorage.getItem("title");
+    if (inMemTitle != null) {
+      setTitle(inMemTitle);
+    }
+
+    for (let i = 0; i < 10; i++) {
+      let currentSkin = localStorage.getItem("skin" + i.toString());
+      if (currentSkin != null) {
+        updateSkinSelection(i, currentSkin);
+        console.log(currentSkin);
+      }
+    }
   }
 
   const handleSubmit = () => {
-    console.log("submitted");
-    setInProcess(1);
-    localStorage.setItem("InProcess", "1");
-    localStorage.setItem("statTrak", statTrak);
-    localStorage.setItem("rarity", rarity);
-    localStorage.setItem("steamTax", steamTax);
+    if (rarity != "" && title != "") {
+      setInProcess(1);
+      localStorage.setItem("InProcess", "1");
+      localStorage.setItem("statTrak", statTrak);
+      localStorage.setItem("rarity", rarity);
+      localStorage.setItem("steamTax", steamTax);
+      localStorage.setItem("title", title);
+
+      for (let i = 0; i < 10; i++) {
+        localStorage.setItem(
+          "skin" + i.toString(),
+          skinsSelected[i]["skinName"]
+        );
+      }
+    } else {
+      setBorderWidth(true);
+      setErrorMessage("Please fill in rarity and contract title");
+    }
   };
 
   const clearDraft = () => {
@@ -76,23 +122,82 @@ const CreatePage = () => {
     localStorage.removeItem("statTrak");
     localStorage.removeItem("rarity");
     localStorage.removeItem("steamTax");
+    localStorage.removeItem("title");
+    for (let i = 0; i < 10; i++) {
+      localStorage.removeItem("skin" + i.toString());
+    }
+
+    setskinsSelected(startingSkins);
   };
 
   function updateSkinSelection(key: number, skinname: string) {
     if (skinname === "") {
-      return;
-    }
-
-    const currentList = [];
-    for (var i = 0; i < skinsSelected.length; i++) {
-      if (i == key) {
-        currentList.push({ empty: false, key: key, skinName: skinname });
-        continue;
+      const currentList = [];
+      for (var i = 0; i < skinsSelected.length; i++) {
+        if (i == key) {
+          currentList.push({ empty: true, key: key, skinName: skinname });
+          continue;
+        }
+        currentList.push(skinsSelected[i]);
       }
-      currentList.push(skinsSelected[i]);
+      setskinsSelected(currentList);
+    } else {
+      const currentList = [];
+      for (var i = 0; i < skinsSelected.length; i++) {
+        if (i == key) {
+          currentList.push({ empty: false, key: key, skinName: skinname });
+          localStorage.setItem("skin" + i.toString(), skinname);
+
+          continue;
+        }
+        currentList.push(skinsSelected[i]);
+      }
+      setskinsSelected(currentList);
     }
-    setskinsSelected(currentList);
-    console.log(skinsSelected);
+  }
+
+  async function sendContract() {
+    const url = "https://localhost:7236/api/Data/Contract";
+    const username = localStorage.getItem("User");
+    const userPayload = {
+      createdBy: username,
+      skinName0: skinsSelected[0].skinName,
+      skinName1: skinsSelected[1].skinName,
+      skinName2: skinsSelected[2].skinName,
+      skinName3: skinsSelected[3].skinName,
+      skinName4: skinsSelected[4].skinName,
+      skinName5: skinsSelected[5].skinName,
+      skinName6: skinsSelected[6].skinName,
+      skinName7: skinsSelected[7].skinName,
+      skinName8: skinsSelected[8].skinName,
+      skinName9: skinsSelected[9].skinName,
+    };
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userPayload),
+    });
+    const json = await response.json();
+    console.log(json);
+    clearDraft();
+    navigate("/explore", { replace: true });
+  }
+
+  function attemptContractSubmit() {
+    let filledOut = true;
+    for (var i = 0; i < skinsSelected.length; i++) {
+      if (skinsSelected[i].empty == true) {
+        filledOut = false;
+      }
+    }
+    if (filledOut == false) {
+      setDisplayError(true);
+    } else {
+      sendContract();
+    }
   }
 
   function toggleValue(fun: Function, value: string) {
@@ -116,9 +221,6 @@ const CreatePage = () => {
               <Checkbox
                 value=""
                 onClick={(e) => toggleValue(setStatTrak, statTrak)}
-                sx={{
-                  color: "white",
-                }}
                 color="primary"
               ></Checkbox>
             </ToggleGrouping>
@@ -129,16 +231,14 @@ const CreatePage = () => {
                   Rarity
                 </InputLabel>
                 <Select
+                  error={borderWidth}
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   label="Rarity"
                   value={rarity}
                   onChange={(e) => setRarity(e.target.value)}
                   sx={{
-                    color: "white",
-                    muiInputLabel: {
-                      color: "white",
-                    },
+                    margin: "0px",
                   }}
                 >
                   <MenuItem value="">
@@ -148,7 +248,7 @@ const CreatePage = () => {
                     sx={{
                       color: "#afafaf",
                     }}
-                    value={"Consumer"}
+                    value={"Consumer Grade"}
                   >
                     Consumer
                   </MenuItem>
@@ -156,7 +256,7 @@ const CreatePage = () => {
                     sx={{
                       color: "#6496e1",
                     }}
-                    value={"Industrial"}
+                    value={"Industrial Grade"}
                   >
                     Industrial
                   </MenuItem>
@@ -164,7 +264,7 @@ const CreatePage = () => {
                     sx={{
                       color: "#4b69cd",
                     }}
-                    value={"Mil-spec"}
+                    value={"Mil-Spec Grade"}
                   >
                     Mil-spec
                   </MenuItem>
@@ -193,12 +293,20 @@ const CreatePage = () => {
               </Typography>
               <Checkbox
                 onClick={(e) => toggleValue(setSteamTax, steamTax)}
-                sx={{
-                  color: "white",
-                }}
                 color="primary"
               ></Checkbox>
             </ToggleGrouping>
+            <Box>
+              <TextField
+                margin="normal"
+                type="title"
+                label="title"
+                variant="filled"
+                error={borderWidth}
+                helperText={errorMessage}
+                onChange={(e) => setTitle(e.target.value)}
+              ></TextField>
+            </Box>
             <PrimaryButton
               submitFunction={handleSubmit}
               padding="1rem"
@@ -214,159 +322,27 @@ const CreatePage = () => {
     return (
       <>
         <NavBar></NavBar>
-        <Box display="flex" marginLeft="2rem">
-          <Grid
-            container
-            rowSpacing={4}
-            justifyContent="center"
-            width="75%"
-            marginBottom="3rem"
-          >
-            {skinsSelected.map((value, index) => (
-              <Grid xs={2.4} item key={index}>
-                <SkinBox
-                  skin={value}
-                  updateSkinList={updateSkinSelection}
-                  key={value.key}
-                  skinList={top100Films}
-                ></SkinBox>
-              </Grid>
-            ))}
-          </Grid>
+        <Box display="flex" paddingLeft="2rem" paddingBottom="2rem">
+          <PrimaryButton submitFunction={clearDraft}>Clear Draft</PrimaryButton>
         </Box>
 
-        <PrimaryButton submitFunction={clearDraft}>Clear Draft</PrimaryButton>
+        <SkinGrid
+          updateSkinSelection={updateSkinSelection}
+          skinsSelected={skinsSelected}
+          rarity={rarity}
+        ></SkinGrid>
+        <Box>
+          <PrimaryButton
+            submitFunction={attemptContractSubmit}
+            bColour="secondary.main"
+          >
+            Save my Contract!
+          </PrimaryButton>
+          {displayError === true && <p>Please select all 10 skins!</p>}
+        </Box>
       </>
     );
   }
 };
-
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-  {
-    label: "The Lord of the Rings: The Return of the King",
-    year: 2003,
-  },
-  { label: "The Good, the Bad and the Ugly", year: 1966 },
-  { label: "Fight Club", year: 1999 },
-  {
-    label: "The Lord of the Rings: The Fellowship of the Ring",
-    year: 2001,
-  },
-  {
-    label: "Star Wars: Episode V - The Empire Strikes Back",
-    year: 1980,
-  },
-  { label: "Forrest Gump", year: 1994 },
-  { label: "Inception", year: 2010 },
-  {
-    label: "The Lord of the Rings: The Two Towers",
-    year: 2002,
-  },
-  { label: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { label: "Goodfellas", year: 1990 },
-  { label: "The Matrix", year: 1999 },
-  { label: "Seven Samurai", year: 1954 },
-  {
-    label: "Star Wars: Episode IV - A New Hope",
-    year: 1977,
-  },
-  { label: "City of God", year: 2002 },
-  { label: "Se7en", year: 1995 },
-  { label: "The Silence of the Lambs", year: 1991 },
-  { label: "It's a Wonderful Life", year: 1946 },
-  { label: "Life Is Beautiful", year: 1997 },
-  { label: "The Usual Suspects", year: 1995 },
-  { label: "Léon: The Professional", year: 1994 },
-  { label: "Spirited Away", year: 2001 },
-  { label: "Saving Private Ryan", year: 1998 },
-  { label: "Once Upon a Time in the West", year: 1968 },
-  { label: "American History X", year: 1998 },
-  { label: "Interstellar", year: 2014 },
-  { label: "Casablanca", year: 1942 },
-  { label: "City Lights", year: 1931 },
-  { label: "Psycho", year: 1960 },
-  { label: "The Green Mile", year: 1999 },
-  { label: "The Intouchables", year: 2011 },
-  { label: "Modern Times", year: 1936 },
-  { label: "Raiders of the Lost Ark", year: 1981 },
-  { label: "Rear Window", year: 1954 },
-  { label: "The Pianist", year: 2002 },
-  { label: "The Departed", year: 2006 },
-  { label: "Terminator 2: Judgment Day", year: 1991 },
-  { label: "Back to the Future", year: 1985 },
-  { label: "Whiplash", year: 2014 },
-  { label: "Gladiator", year: 2000 },
-  { label: "Memento", year: 2000 },
-  { label: "The Prestige", year: 2006 },
-  { label: "The Lion King", year: 1994 },
-  { label: "Apocalypse Now", year: 1979 },
-  { label: "Alien", year: 1979 },
-  { label: "Sunset Boulevard", year: 1950 },
-  {
-    label:
-      "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
-    year: 1964,
-  },
-  { label: "The Great Dictator", year: 1940 },
-  { label: "Cinema Paradiso", year: 1988 },
-  { label: "The Lives of Others", year: 2006 },
-  { label: "Grave of the Fireflies", year: 1988 },
-  { label: "Paths of Glory", year: 1957 },
-  { label: "Django Unchained", year: 2012 },
-  { label: "The Shining", year: 1980 },
-  { label: "WALL·E", year: 2008 },
-  { label: "American Beauty", year: 1999 },
-  { label: "The Dark Knight Rises", year: 2012 },
-  { label: "Princess Mononoke", year: 1997 },
-  { label: "Aliens", year: 1986 },
-  { label: "Oldboy", year: 2003 },
-  { label: "Once Upon a Time in America", year: 1984 },
-  { label: "Witness for the Prosecution", year: 1957 },
-  { label: "Das Boot", year: 1981 },
-  { label: "Citizen Kane", year: 1941 },
-  { label: "North by Northwest", year: 1959 },
-  { label: "Vertigo", year: 1958 },
-  {
-    label: "Star Wars: Episode VI - Return of the Jedi",
-    year: 1983,
-  },
-  { label: "Reservoir Dogs", year: 1992 },
-  { label: "Braveheart", year: 1995 },
-  { label: "M", year: 1931 },
-  { label: "Requiem for a Dream", year: 2000 },
-  { label: "Amélie", year: 2001 },
-  { label: "A Clockwork Orange", year: 1971 },
-  { label: "Like Stars on Earth", year: 2007 },
-  { label: "Taxi Driver", year: 1976 },
-  { label: "Lawrence of Arabia", year: 1962 },
-  { label: "Double Indemnity", year: 1944 },
-  {
-    label: "Eternal Sunshine of the Spotless Mind",
-    year: 2004,
-  },
-  { label: "Amadeus", year: 1984 },
-  { label: "To Kill a Mockingbird", year: 1962 },
-  { label: "Toy Story 3", year: 2010 },
-  { label: "Logan", year: 2017 },
-  { label: "Full Metal Jacket", year: 1987 },
-  { label: "Dangal", year: 2016 },
-  { label: "The Sting", year: 1973 },
-  { label: "2001: A Space Odyssey", year: 1968 },
-  { label: "Singin' in the Rain", year: 1952 },
-  { label: "Toy Story", year: 1995 },
-  { label: "Bicycle Thieves", year: 1948 },
-  { label: "The Kid", year: 1921 },
-  { label: "Inglourious Basterds", year: 2009 },
-  { label: "Snatch", year: 2000 },
-  { label: "3 Idiots", year: 2009 },
-  { label: "Monty Python and the Holy Grail", year: 1975 },
-];
 
 export default CreatePage;

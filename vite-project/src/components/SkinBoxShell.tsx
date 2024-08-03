@@ -10,12 +10,7 @@ import {
 import React from "react";
 import { createRoutesFromChildren } from "react-router-dom";
 import PrimaryButton from "./PrimaryButton";
-const SkinBoxStyled = styled(Box)({
-  borderRadius: "50px",
-  backgroundColor: "grey",
-  width: "195px",
-  height: "221px",
-});
+import SkinBoxFillings from "./SkinBoxFillings";
 
 const style = {
   position: "absolute" as "absolute",
@@ -34,10 +29,6 @@ const styleImg = {
   height: "auto",
   cursor: "pointer",
 };
-interface listItem {
-  label: string;
-  year: number;
-}
 
 interface Props {
   skin: {
@@ -46,27 +37,43 @@ interface Props {
     skinName: string;
   };
   updateSkinList: Function;
-  skinList: listItem[];
+  skinList: string[];
+  selectedRarityColour: string;
 }
 
-export default function SkinBox({ skin, updateSkinList, skinList }: Props) {
+export default function SkinBoxShell({
+  skin,
+  updateSkinList,
+  skinList,
+  selectedRarityColour,
+}: Props) {
   const [open, setOpen] = React.useState(false);
-  const [skinBox, setSkinBox] = React.useState({ label: "", year: 0 });
+  const [skinBox, setSkinBox] = React.useState("");
 
-  function updateSKinBox(newValue: listItem | null) {
+  function updateSKinBox(newValue: string | null) {
     if (newValue == null) {
       return;
     } else [setSkinBox(newValue)];
   }
+  const SkinBoxStyled = styled(Box)({
+    borderRadius: "15px",
+    backgroundColor: selectedRarityColour,
+    width: "195px",
+    height: "221px",
+  });
 
   function handleUpdateSkinList() {
     updateSkinList(skin.key, skinBox);
     handleClose();
   }
 
+  function handleDeleteSkin() {
+    updateSkinList(skin.key, "");
+  }
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log(skin);
+
   if (skin.empty == true) {
     return (
       <SkinBoxStyled>
@@ -82,25 +89,41 @@ export default function SkinBox({ skin, updateSkinList, skinList }: Props) {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a modal
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              marginBottom="1rem"
+            >
+              Choose your skin!
             </Typography>
             <Autocomplete
               disablePortal
               id="combo-box-demo"
               value={skinBox}
               options={skinList}
-              onChange={(event: any, newValue: listItem | null) => {
+              onChange={(event: any, newValue: string | null) => {
                 updateSKinBox(newValue);
               }}
-              sx={{ width: 300 }}
+              sx={{ marginBottom: "1rem" }}
               renderInput={(params) => <TextField {...params} label="Skin" />}
             />
-            <PrimaryButton submitFunction={handleUpdateSkinList}>
-              Clear Draft
-            </PrimaryButton>
+            <Box display="flex" justifyContent="flex-end">
+              <PrimaryButton submitFunction={handleUpdateSkinList}>
+                Submit
+              </PrimaryButton>
+            </Box>
           </Box>
         </Modal>
+      </SkinBoxStyled>
+    );
+  } else {
+    return (
+      <SkinBoxStyled>
+        <SkinBoxFillings
+          updateSkinSelection={handleDeleteSkin}
+          skin={skin}
+        ></SkinBoxFillings>
       </SkinBoxStyled>
     );
   }
