@@ -1,7 +1,7 @@
 Welcome to trade up wizard!
 This website allows you to login/signup. Create your own contracts and even share them with others!
 
-The frontend uses vite and is hosted on a web server on azure found here: https://purple-ground-05b7a451e.5.azurestaticapps.net/
+The frontend uses vite and is hosted on a web server on azure found here: https://victorious-river-0616bfb1e.5.azurestaticapps.net//
 
 The backend is built with dotnet with CRUD functionality allowing all functionality of the website to persist for all users. The swaggerui for the backend can be found here: https://contractwizardapi-asa8emcbh7aqayer.eastus-01.azurewebsites.net/swagger/index.html
 
