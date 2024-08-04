@@ -17,7 +17,7 @@ const SignupPage = () => {
       password: password,
     };
 
-    const url = "https://localhost:7236/api/Data";
+    const url = "http://localhost:5000/api/Data";
 
     const response = await fetch(url, {
       method: "POST",
