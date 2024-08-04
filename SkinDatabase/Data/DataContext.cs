@@ -19,6 +19,6 @@ namespace SkinDatabase.Data
         public DbSet<Skin> Skins { get; set; }
         public DbSet<Collection> Collections { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(@"Data Source=./SkinsDB.db");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite(@"Data Source=./SkinsDB.db");
     }
 }
