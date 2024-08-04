@@ -1,7 +1,6 @@
 import NavBar from "../components/NavBar";
 import PrimaryButton from "../components/PrimaryButton";
-import { useState, useEffect } from "react";
-import react from "react";
+import { useState } from "react";
 import SkinGrid from "../components/SkinGrid";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +13,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  ScopedCssBaseline,
 } from "@mui/material/";
-import SecondaryButton from "../components/SecondaryButton";
 
 const MyBox = styled(Box)({
   display: "block",
@@ -52,8 +49,6 @@ const startingSkins = [
   { empty: true, key: 8, skinName: "" },
   { empty: true, key: 9, skinName: "" },
 ];
-
-const styledCheckbox = styled(Checkbox)({});
 
 const CreatePage = () => {
   const [statTrak, setStatTrak] = useState("0");
@@ -233,7 +228,7 @@ const CreatePage = () => {
               <Typography paddingTop="0.6rem">Stat Trak</Typography>
               <Checkbox
                 value=""
-                onClick={(e) => toggleValue(setStatTrak, statTrak)}
+                onClick={() => toggleValue(setStatTrak, statTrak)}
                 color="primary"
               ></Checkbox>
             </ToggleGrouping>
@@ -305,7 +300,7 @@ const CreatePage = () => {
                 Steam tax (profit * 0.85)
               </Typography>
               <Checkbox
-                onClick={(e) => toggleValue(setSteamTax, steamTax)}
+                onClick={() => toggleValue(setSteamTax, steamTax)}
                 color="primary"
               ></Checkbox>
             </ToggleGrouping>

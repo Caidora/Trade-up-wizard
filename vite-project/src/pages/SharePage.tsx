@@ -1,18 +1,7 @@
 import NavBar from "../components/NavBar";
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Box,
-  Typography,
-  getRadioGroupUtilityClass,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import SkinGrid from "../components/SkinGrid";
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState } from "react";
 const startingSkins = [
   { empty: true, key: 0, skinName: "" },
   { empty: true, key: 1, skinName: "" },

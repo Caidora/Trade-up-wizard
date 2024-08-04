@@ -1,9 +1,6 @@
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Alert from "@mui/material/Alert";
-import Collapse from "@mui/material/Collapse";
 import PrimaryButton from "./PrimaryButton";
-import SecondaryButton from "./SecondaryButton";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
@@ -32,7 +29,6 @@ interface Props {
 export default function ActionBox({
   title,
   priButton,
-  secButton,
   submitFunction,
   setUser,
   setPassword,

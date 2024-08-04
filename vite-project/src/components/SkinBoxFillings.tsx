@@ -66,12 +66,12 @@ export default function SkinBoxFillings({
     <>
       <div style={styleDiv}>
         {copySkin != null && (
-          <p onClick={(e) => copySkin(currentSkin?.skinName)} style={styleX}>
+          <p onClick={() => copySkin(currentSkin?.skinName)} style={styleX}>
             Copy
           </p>
         )}
         {copySkin != null && (
-          <p onClick={(e) => updateSkinSelection()} style={styleX}>
+          <p onClick={() => updateSkinSelection()} style={styleX}>
             X
           </p>
         )}

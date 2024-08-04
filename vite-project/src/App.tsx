@@ -6,12 +6,8 @@ import "./App.css";
 import ExplorePage from "./pages/ExplorePage";
 import CreatePage from "./pages/CreatePage";
 import SharePage from "./pages/SharePage";
-import { ThemeProvider, useTheme, createTheme } from "@mui/material/styles";
-import { amber, deepOrange, grey } from "@mui/material/colors";
-import { PaletteMode } from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
 
 const darkTheme = createTheme({
   palette: {

@@ -2,7 +2,6 @@ import { styled } from "@mui/material/styles";
 import { Grid, Box, Typography } from "@mui/material";
 import SkinBoxShell from "./SkinBoxShell";
 import { useState, useEffect } from "react";
-import PrimaryButton from "./PrimaryButton";
 
 interface Props {
   skinsSelected: {

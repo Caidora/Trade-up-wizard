@@ -3,7 +3,6 @@ import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import NavItem from "../components/NavItem";
 

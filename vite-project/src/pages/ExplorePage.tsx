@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState } from "react";
 
 interface rowType {
   key: number;
@@ -20,16 +20,6 @@ interface rowType {
   rarity: string;
   cost: string;
   estimatedReturn: string;
-}
-
-interface Skin {
-  skinID: number;
-  skinName: string;
-  collectionName: string;
-  rarity: string;
-  minfloat: number;
-  maxfloat: number;
-  imageUrl: string;
 }
 
 const ExplorePage = () => {

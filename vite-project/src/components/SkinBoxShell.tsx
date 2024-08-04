@@ -1,14 +1,6 @@
 import { styled } from "@mui/material/styles";
-import {
-  Box,
-  Grid,
-  Modal,
-  Typography,
-  Autocomplete,
-  TextField,
-} from "@mui/material";
+import { Box, Modal, Typography, Autocomplete, TextField } from "@mui/material";
 import React from "react";
-import { createRoutesFromChildren } from "react-router-dom";
 import PrimaryButton from "./PrimaryButton";
 import SkinBoxFillings from "./SkinBoxFillings";
 
@@ -108,7 +100,7 @@ export default function SkinBoxShell({
               id="combo-box-demo"
               value={skinBox}
               options={skinList}
-              onChange={(event: any, newValue: string | null) => {
+              onChange={(_event: any, newValue: string | null) => {
                 updateSKinBox(newValue);
               }}
               sx={{ marginBottom: "1rem" }}
