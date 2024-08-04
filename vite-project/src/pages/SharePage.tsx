@@ -45,7 +45,9 @@ const SharePage = () => {
   const search = window.location.search;
   const params = new URLSearchParams(search);
   const contractID = params.get("contractID");
-  const url = "https://localhost:7236/api/Data/Contract/" + contractID;
+  const url =
+    "https://contractwizardapi-asa8emcbh7aqayer.eastus-01.azurewebsites.net/api/Data/Contract/" +
+    contractID;
   useEffect(() => {
     fetch(url, {
       method: "GET",

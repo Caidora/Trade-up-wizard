@@ -161,7 +161,8 @@ const CreatePage = () => {
   }
 
   async function sendContract() {
-    const url = "https://localhost:7236/api/Data/Contract";
+    const url =
+      "https://contractwizardapi-asa8emcbh7aqayer.eastus-01.azurewebsites.net/api/Data/Contract";
     const username = localStorage.getItem("User");
     const Title = localStorage.getItem("title");
     const Rarity = localStorage.getItem("rarity");

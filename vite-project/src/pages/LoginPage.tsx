@@ -17,7 +17,8 @@ const LoginPage = () => {
       password: password,
     };
 
-    const url = "https://localhost:7236/api/Data/Login";
+    const url =
+      "https://contractwizardapi-asa8emcbh7aqayer.eastus-01.azurewebsites.net/api/Data/Login";
 
     const response = await fetch(url, {
       method: "POST",

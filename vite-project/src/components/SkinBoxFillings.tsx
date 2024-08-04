@@ -49,12 +49,16 @@ export default function SkinBoxFillings({
 
   console.log("Gothere");
   useEffect(() => {
-    fetch("https://localhost:7236/api/Data/skin/" + skin.skinName, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      "https://contractwizardapi-asa8emcbh7aqayer.eastus-01.azurewebsites.net/api/Data/skin/" +
+        skin.skinName,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((res) => {
         return res.json();
       })

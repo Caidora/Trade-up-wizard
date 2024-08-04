@@ -30,7 +30,8 @@ const ExplorePage = () => {
     navigate("/Share?contractID=" + key.toString(), { replace: true });
   }
 
-  const url = "https://localhost:7236/api/Data/Page/Explore";
+  const url =
+    "https://contractwizardapi-asa8emcbh7aqayer.eastus-01.azurewebsites.net/api/Data/Page/Explore";
   useEffect(() => {
     fetch(url, {
       method: "GET",

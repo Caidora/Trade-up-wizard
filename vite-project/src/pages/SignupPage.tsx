@@ -17,7 +17,8 @@ const SignupPage = () => {
       password: password,
     };
 
-    const url = "http://localhost:5000/api/Data";
+    const url =
+      "https://contractwizardapi-asa8emcbh7aqayer.eastus-01.azurewebsites.net/api/Data";
 
     const response = await fetch(url, {
       method: "POST",

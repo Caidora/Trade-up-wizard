@@ -47,7 +47,9 @@ export default function SkinGrid({
   }
   const [skins, setSkins] = useState([]);
   console.log("rendering");
-  const url = "https://localhost:7236/api/Data/skinNames/" + rarity;
+  const url =
+    "https://contractwizardapi-asa8emcbh7aqayer.eastus-01.azurewebsites.net/api/Data/skinNames/" +
+    rarity;
 
   useEffect(() => {
     fetch(url, {
