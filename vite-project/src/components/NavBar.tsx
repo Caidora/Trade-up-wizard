@@ -14,6 +14,16 @@ const TopRightBox = styled(Box)({
   display: "flex",
   justifyContent: "space-between",
 });
+const clearDraft = () => {
+  localStorage.removeItem("InProcess");
+  localStorage.removeItem("statTrak");
+  localStorage.removeItem("rarity");
+  localStorage.removeItem("steamTax");
+  localStorage.removeItem("title");
+  for (let i = 0; i < 10; i++) {
+    localStorage.removeItem("skin" + i.toString());
+  }
+};
 
 function NavBar() {
   let navigate = useNavigate();
@@ -24,23 +34,34 @@ function NavBar() {
   }
   const handleClick = () => {
     localStorage.removeItem("User");
-    navigate("/", { replace: true });
+    clearDraft();
+    navigate("/");
+    location.reload();
   };
   return (
     <NavBox>
       <NavItem link="./"> Home</NavItem>
-      <TopRightBox>
-        <NavItem link="./Explore">Explore</NavItem>
-        <NavItem link="./Create">Create</NavItem>
-        {loggedIn == true && (
+      {loggedIn == true && (
+        <TopRightBox>
+          <NavItem link="./Explore">Explore</NavItem>
+          <NavItem link="./Create">Create</NavItem>
+
           <Box display="block">
             <Typography>Welcome {userName}</Typography>
             <NavItem Padding="0px" spacing="0px" onPress={handleClick}>
               Log Out?
             </NavItem>
           </Box>
-        )}
-      </TopRightBox>
+        </TopRightBox>
+      )}
+      {loggedIn == false && (
+        <TopRightBox>
+          <NavItem link="./Explore">Explore</NavItem>
+          <NavItem disabled={true} link="./Create">
+            Create
+          </NavItem>
+        </TopRightBox>
+      )}
     </NavBox>
   );
 }

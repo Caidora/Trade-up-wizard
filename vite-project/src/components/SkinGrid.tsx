@@ -10,8 +10,10 @@ interface Props {
     key: number;
     skinName: string;
   }[];
-  updateSkinSelection: Function;
+  updateSkinSelection?: Function;
   rarity: string;
+  copySkin?: Function;
+  shareScreen?: boolean;
 }
 const MyBox = styled(Box)({
   backgroundColor: "grey",
@@ -34,6 +36,8 @@ export default function SkinGrid({
   skinsSelected,
   updateSkinSelection,
   rarity,
+  copySkin,
+  shareScreen,
 }: Props) {
   var rarityColour = "Restricted";
 
@@ -43,7 +47,7 @@ export default function SkinGrid({
     }
   }
   const [skins, setSkins] = useState([]);
-
+  console.log("rendering");
   const url = "https://localhost:7236/api/Data/skinNames/" + rarity;
 
   useEffect(() => {
@@ -60,38 +64,78 @@ export default function SkinGrid({
         setSkins(data);
       });
   }, []);
-  return (
-    <Box display="flex" justifyContent="flex-start">
-      <Box width="100%">
-        <Grid container rowSpacing={4}>
-          {skinsSelected.map((value, index) => (
-            <Grid xs={2.4} item key={index}>
-              <SkinBoxShell
-                skin={value}
-                updateSkinList={updateSkinSelection}
-                key={value.key}
-                skinList={skins}
-                selectedRarityColour={rarityColour}
-              ></SkinBoxShell>
-            </Grid>
-          ))}
-        </Grid>
+
+  if (shareScreen == undefined) {
+    return (
+      <Box display="flex" justifyContent="flex-start">
+        <Box width="100%">
+          <Grid container rowSpacing={4}>
+            {skinsSelected.map((value, index) => (
+              <Grid xs={2.4} item key={index}>
+                <SkinBoxShell
+                  skin={value}
+                  updateSkinList={updateSkinSelection}
+                  copySkin={copySkin}
+                  key={value.key}
+                  skinList={skins}
+                  selectedRarityColour={rarityColour}
+                ></SkinBoxShell>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+        <MyBox display="block" width="25%">
+          <Typography marginTop="2rem">Trade up stats</Typography>
+          <MyBoxCont>
+            <Typography>Price</Typography>
+            <Typography>$53.99</Typography>
+          </MyBoxCont>
+          <MyBoxCont>
+            <Typography>Average Return</Typography>
+            <Typography>$59</Typography>
+          </MyBoxCont>
+          <MyBoxCont>
+            <Typography>Estimated Value (EV)</Typography>
+            <Typography>110%</Typography>
+          </MyBoxCont>
+        </MyBox>
       </Box>
-      <MyBox display="block" width="25%">
-        <Typography marginTop="2rem">Trade up stats</Typography>
-        <MyBoxCont>
-          <Typography>Price</Typography>
-          <Typography>$53.99</Typography>
-        </MyBoxCont>
-        <MyBoxCont>
-          <Typography>Average Return</Typography>
-          <Typography>$59</Typography>
-        </MyBoxCont>
-        <MyBoxCont>
-          <Typography>Estimated Value (EV)</Typography>
-          <Typography>110%</Typography>
-        </MyBoxCont>
-      </MyBox>
-    </Box>
-  );
+    );
+  } else {
+    return (
+      <Box display="flex" justifyContent="flex-start">
+        <Box width="100%">
+          <Grid container rowSpacing={4}>
+            {skinsSelected.map((value, index) => (
+              <Grid xs={2.4} item key={index}>
+                <SkinBoxShell
+                  skin={value}
+                  updateSkinList={updateSkinSelection}
+                  copySkin={copySkin}
+                  key={value.key}
+                  skinList={skins}
+                  selectedRarityColour={rarityColour}
+                ></SkinBoxShell>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+        <MyBox display="block" width="25%">
+          <Typography marginTop="2rem">Trade up stats</Typography>
+          <MyBoxCont>
+            <Typography>Price</Typography>
+            <Typography>$53.99</Typography>
+          </MyBoxCont>
+          <MyBoxCont>
+            <Typography>Average Return</Typography>
+            <Typography>$59</Typography>
+          </MyBoxCont>
+          <MyBoxCont>
+            <Typography>Estimated Value (EV)</Typography>
+            <Typography>110%</Typography>
+          </MyBoxCont>
+        </MyBox>
+      </Box>
+    );
+  }
 }

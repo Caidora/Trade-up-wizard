@@ -2,6 +2,7 @@ import NavBar from "../components/NavBar";
 import ActionBox from "../components/ActionBox";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const LoginPage = () => {
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");

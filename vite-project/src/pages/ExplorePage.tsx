@@ -6,11 +6,21 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  TableBody,
+  Box,
+  Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState, Fragment } from "react";
 
-import { useEffect, useState } from "react";
-
-interface Contract {}
+interface rowType {
+  key: number;
+  title: string;
+  user: string;
+  rarity: string;
+  cost: string;
+  estimatedReturn: string;
+}
 
 interface Skin {
   skinID: number;
@@ -21,11 +31,18 @@ interface Skin {
   maxfloat: number;
   imageUrl: string;
 }
-const ExplorePage = () => {
-  const [rows, setRows] = useState([]);
 
+const ExplorePage = () => {
+  const [rows, setRows] = useState<rowType[]>([]);
+  let navigate = useNavigate();
+
+  function takeToShare(key: number) {
+    navigate("/Share?contractID=" + key.toString(), { replace: true });
+  }
+
+  const url = "https://localhost:7236/api/Data/Page/Explore";
   useEffect(() => {
-    fetch("https://localhost:7236/api/Data/Contracts/", {
+    fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -35,26 +52,54 @@ const ExplorePage = () => {
         return res.json();
       })
       .then((data) => {
+        console.log(data);
         setRows(data);
+        console.log(rows);
       });
   }, []);
 
   return (
-    <div>
+    <>
       <NavBar></NavBar>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table"></Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Title</TableCell>
-            <TableCell align="right">User</TableCell>
-            <TableCell align="right">Rarity</TableCell>
-            <TableCell align="right">Cost</TableCell>
-            <TableCell align="right">E.V</TableCell>
-          </TableRow>
-        </TableHead>
-      </TableContainer>
-    </div>
+      <Typography variant="h3">Search user uploaded contracts!</Typography>
+      <Box display="flex" justifyContent="center">
+        <TableContainer component={Paper} sx={{ width: "auto" }}>
+          <Table aria-label="simple table">
+            <TableHead sx={{ display: "table-header-group" }}>
+              <TableRow>
+                <TableCell align="right">Title</TableCell>
+                <TableCell align="right">User</TableCell>
+                <TableCell align="right">Rarity</TableCell>
+                <TableCell align="right">Cost</TableCell>
+                <TableCell align="right">EstimatedReturn</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow
+                  key={row.key}
+                  sx={{
+                    cursor: "pointer",
+                    "&:last-child td, &:last-child th": {
+                      border: 0,
+                    },
+                  }}
+                  onClick={() => takeToShare(row.key)}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.title}
+                  </TableCell>
+                  <TableCell align="right">{row.user}</TableCell>
+                  <TableCell align="right">{row.rarity}</TableCell>
+                  <TableCell align="right">{row.cost}</TableCell>
+                  <TableCell align="right">{row.estimatedReturn}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    </>
   );
 };
 

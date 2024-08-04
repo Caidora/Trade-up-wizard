@@ -5,6 +5,7 @@ import SignupPage from "./pages/SignupPage";
 import "./App.css";
 import ExplorePage from "./pages/ExplorePage";
 import CreatePage from "./pages/CreatePage";
+import SharePage from "./pages/SharePage";
 import { ThemeProvider, useTheme, createTheme } from "@mui/material/styles";
 import { amber, deepOrange, grey } from "@mui/material/colors";
 import { PaletteMode } from "@mui/material";
@@ -34,6 +35,7 @@ const App: React.FC = () => {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/explore" element={<ExplorePage />} />
             <Route path="/create" element={<CreatePage />} />
+            <Route path="/share" element={<SharePage />} />
           </Routes>
         </Router>
       </ThemeProvider>

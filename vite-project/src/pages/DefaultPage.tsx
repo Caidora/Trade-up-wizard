@@ -68,7 +68,7 @@ const DefaultPage = () => {
   } else {
     return (
       <MyBox>
-        <NavBar></NavBar>{" "}
+        <NavBar></NavBar>
         <Typography marginTop="30px" marginBottom="20px" variant="h1">
           Welcome {userName}!
         </Typography>

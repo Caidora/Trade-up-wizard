@@ -36,9 +36,10 @@ interface Props {
     key: number;
     skinName: string;
   };
-  updateSkinList: Function;
+  updateSkinList?: Function;
   skinList: string[];
   selectedRarityColour: string;
+  copySkin?: Function;
 }
 
 export default function SkinBoxShell({
@@ -46,6 +47,7 @@ export default function SkinBoxShell({
   updateSkinList,
   skinList,
   selectedRarityColour,
+  copySkin,
 }: Props) {
   const [open, setOpen] = React.useState(false);
   const [skinBox, setSkinBox] = React.useState("");
@@ -63,12 +65,16 @@ export default function SkinBoxShell({
   });
 
   function handleUpdateSkinList() {
-    updateSkinList(skin.key, skinBox);
-    handleClose();
+    if (updateSkinList != null) {
+      updateSkinList(skin.key, skinBox);
+      handleClose();
+    }
   }
 
   function handleDeleteSkin() {
-    updateSkinList(skin.key, "");
+    if (updateSkinList != null) {
+      updateSkinList(skin.key, "");
+    }
   }
 
   const handleOpen = () => setOpen(true);
@@ -122,6 +128,7 @@ export default function SkinBoxShell({
       <SkinBoxStyled>
         <SkinBoxFillings
           updateSkinSelection={handleDeleteSkin}
+          copySkin={copySkin}
           skin={skin}
         ></SkinBoxFillings>
       </SkinBoxStyled>

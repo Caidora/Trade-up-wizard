@@ -16,6 +16,7 @@ interface Props {
     skinName: string;
   };
   updateSkinSelection: Function;
+  copySkin?: Function;
 }
 
 const styleImg = {
@@ -36,10 +37,14 @@ const styleX = {
 
 const styleDiv = {
   display: "flex",
-  justifyContent: "flex-end",
+  justifyContent: "space-between",
 };
 
-export default function SkinBoxFillings({ skin, updateSkinSelection }: Props) {
+export default function SkinBoxFillings({
+  skin,
+  updateSkinSelection,
+  copySkin,
+}: Props) {
   const [currentSkin, setCurrentSkin] = useState<Skin>();
 
   console.log("Gothere");
@@ -60,9 +65,16 @@ export default function SkinBoxFillings({ skin, updateSkinSelection }: Props) {
   return (
     <>
       <div style={styleDiv}>
-        <p onClick={(e) => updateSkinSelection()} style={styleX}>
-          X
-        </p>
+        {copySkin != null && (
+          <p onClick={(e) => copySkin(currentSkin?.skinName)} style={styleX}>
+            Copy
+          </p>
+        )}
+        {copySkin != null && (
+          <p onClick={(e) => updateSkinSelection()} style={styleX}>
+            X
+          </p>
+        )}
       </div>
       <p style={styleTitle}>{currentSkin?.skinName}</p>
       <img style={styleImg} src={currentSkin?.imageUrl}></img>

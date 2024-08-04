@@ -116,6 +116,15 @@ const CreatePage = () => {
     }
   };
 
+  function copySkin(skinName: string) {
+    for (var i = 0; i < skinsSelected.length; i++) {
+      if (skinsSelected[i].empty == true) {
+        updateSkinSelection(i, skinName);
+        break;
+      }
+    }
+  }
+
   const clearDraft = () => {
     localStorage.removeItem("InProcess");
     setInProcess(0);
@@ -159,8 +168,12 @@ const CreatePage = () => {
   async function sendContract() {
     const url = "https://localhost:7236/api/Data/Contract";
     const username = localStorage.getItem("User");
+    const Title = localStorage.getItem("title");
+    const Rarity = localStorage.getItem("rarity");
     const userPayload = {
       createdBy: username,
+      title: Title,
+      rarity: Rarity,
       skinName0: skinsSelected[0].skinName,
       skinName1: skinsSelected[1].skinName,
       skinName2: skinsSelected[2].skinName,
@@ -328,6 +341,7 @@ const CreatePage = () => {
 
         <SkinGrid
           updateSkinSelection={updateSkinSelection}
+          copySkin={copySkin}
           skinsSelected={skinsSelected}
           rarity={rarity}
         ></SkinGrid>
