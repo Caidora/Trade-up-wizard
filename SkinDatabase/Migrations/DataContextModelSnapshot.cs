@@ -36,8 +36,57 @@ namespace SkinDatabase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("createdBy")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("createdBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("rarity")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName0")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName1")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName3")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName4")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName5")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName6")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName7")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName8")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("skinName9")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("contractID");
 
@@ -107,6 +156,10 @@ namespace SkinDatabase.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<double>("minfloat")
+                        .HasMaxLength(20)
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("price")
                         .HasMaxLength(20)
                         .HasColumnType("REAL");
 

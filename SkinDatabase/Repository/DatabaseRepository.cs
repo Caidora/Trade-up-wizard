@@ -48,6 +48,11 @@ namespace SkinDatabase.Repository
             throw new NotImplementedException();
         }
 
+        async Task<User> IDatabaseRepository.ModifyUserPass(User user, string password)
+        {
+            throw new NotImplementedException();
+        }
+
         async Task<List<Contract>> IDatabaseRepository.GetContractsByUser(User user)
         {
             throw new NotImplementedException();
@@ -70,10 +75,63 @@ namespace SkinDatabase.Repository
 
 
         }
-
-        async Task<User> IDatabaseRepository.ModifyUserPass(User user, string password)
+        async Task<List<string>> IDatabaseRepository.GetSkinNamesByRarity(string rarity)
         {
-            throw new NotImplementedException();
+
+            
+            var skinList =  _context.Skins.ToArray();
+           
+            var skinNames = new List<string>();
+            foreach (var skin in skinList)
+            {
+                if(skin.rarity == rarity)
+                {
+                    skinNames.Add(skin.skinName);
+                }
+                
+            }
+            return skinNames;
+
+
+        }
+        async Task<Skin> IDatabaseRepository.GetSkinBySkinName(string skinName)
+        {
+            var skin = await _context.Skins.FirstOrDefaultAsync(Skin => Skin.skinName == skinName);
+            if (skin == null)
+            {
+                throw new ArgumentException(string.Format("{0} {1}", skin, "is not a valid skin"));
+            }
+            return skin;
+        }
+
+        async Task<bool> IDatabaseRepository.CreateContract(Contract contract)
+        {
+            _context.Contracts.Add(contract);
+
+            if (await _context.SaveChangesAsync() != 0)
+            {
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        async Task<Contract[]> IDatabaseRepository.GetAllContracts()
+        {
+            var ContractList = _context.Contracts.ToArray();
+
+            return ContractList;
+        }
+
+        async Task<Contract> IDatabaseRepository.GetContractByID(int id)
+        {
+            var Contract = await _context.Contracts.FirstOrDefaultAsync(Contract => Contract.contractID == id);
+
+            return Contract;
+
         }
     }
 }

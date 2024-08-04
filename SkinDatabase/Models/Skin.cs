@@ -31,5 +31,9 @@ namespace SkinDatabase.Models
         [MaxLength(20)]
         public string imageUrl { get; set; } = string.Empty;
 
+        [Required]
+        [MaxLength(20)]
+        public double price { get; set; } = 0.0;
+
     }
 }

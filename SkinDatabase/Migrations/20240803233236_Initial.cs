@@ -28,7 +28,19 @@ namespace SkinDatabase.Migrations
                 {
                     contractID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    createdBy = table.Column<int>(type: "INTEGER", nullable: false)
+                    createdBy = table.Column<string>(type: "TEXT", nullable: false),
+                    title = table.Column<string>(type: "TEXT", nullable: false),
+                    rarity = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName0 = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName1 = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName2 = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName3 = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName4 = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName5 = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName6 = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName7 = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName8 = table.Column<string>(type: "TEXT", nullable: false),
+                    skinName9 = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +88,8 @@ namespace SkinDatabase.Migrations
                     rarity = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
                     minfloat = table.Column<double>(type: "REAL", maxLength: 20, nullable: false),
                     maxfloat = table.Column<double>(type: "REAL", maxLength: 20, nullable: false),
-                    imageUrl = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false)
+                    imageUrl = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    price = table.Column<double>(type: "REAL", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {

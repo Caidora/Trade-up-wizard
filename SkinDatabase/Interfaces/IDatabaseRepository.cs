@@ -17,5 +17,13 @@ namespace SkinDatabase.Interfaces
 
         Task<Contract> AddContractToUser(User user, Contract contract);
 
+        Task<List<string>> GetSkinNamesByRarity(string rarity);
+
+        Task<Skin> GetSkinBySkinName(string skinName);
+
+        Task<bool> CreateContract(Contract contract);
+        Task<Contract[]> GetAllContracts();
+
+        Task<Contract> GetContractByID(int id);
     }
 }

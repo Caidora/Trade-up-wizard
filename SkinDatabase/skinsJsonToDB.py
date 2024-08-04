@@ -4,7 +4,7 @@
 
 import json
 import sqlite3
-
+import random
 
 
 # Opening JSON file
@@ -27,6 +27,35 @@ for i in data:
     if(Category["name"] == "Knives" or Category["name"] ==  "Gloves" or i["name"] == "M4A4 | Howl"):
         continue
 
+
+    rarityColours = [
+        ["Consumer Grade", "#afafaf"],
+        ["Industrial Grade", "#6496e1"],
+        ["Mil-Spec Grade", "#4b69cd"],
+        ["Restricted", "#8847ff"],
+        ["Classified", "#d32ce6"],
+    ]
+
+    priceRanges = {
+        "Consumer Grade": [
+            0.05,0.10
+        ],
+        "Industrial Grade": [
+            0.50,1.00
+        ],
+        "Mil-Spec Grade": [
+            5.00,10.00
+        ],
+        "Restricted": [
+            50.00,100.00
+        ],
+        "Classified": [
+            500.00,1000.00
+        ],
+        "Covert": [
+            5000.00,10000.00
+        ]
+    }
     newItem.append(i["id"][5:])
     newItem.append(i["name"])
     collections = i["collections"][0]
@@ -36,6 +65,11 @@ for i in data:
     newItem.append(float(i["min_float"]))
     newItem.append(float(i["max_float"]))
     newItem.append(i["image"])
+
+    currentRange = priceRanges[rarity["name"]]
+    newItem.append(round(random.uniform(currentRange[0], currentRange[1]),2))
+
+
     print(newItem)
 
     itemList.append(newItem)
@@ -48,7 +82,7 @@ try:
     print("Successfully Connected to SQLite")
     for i in itemList:
 
-        sqlite_insert_query = f"""INSERT INTO Skins (skinID, skinName, collectionName, rarity, minfloat, maxfloat, imageUrl) VALUES ({i[0]},"{i[1]}","{i[2]}","{i[3]}",{i[4]}, {i[5]} ,"{i[6]}")"""
+        sqlite_insert_query = f"""INSERT INTO Skins (skinID, skinName, collectionName, rarity, minfloat, maxfloat, imageUrl, price) VALUES ({i[0]},"{i[1]}","{i[2]}","{i[3]}",{i[4]}, {i[5]} ,"{i[6]}", {i[7]})"""
         print(sqlite_insert_query)
         count = cursor.execute(sqlite_insert_query)
         
