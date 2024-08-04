@@ -61,7 +61,41 @@ const CreatePage = () => {
   const [borderWidth, setBorderWidth] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [skinsSelected, setskinsSelected] = useState(startingSkins);
+  const [skinSelected0, setskinSelected0] = useState(startingSkins[0]);
+  const [skinSelected1, setskinSelected1] = useState(startingSkins[1]);
+  const [skinSelected2, setskinSelected2] = useState(startingSkins[2]);
+  const [skinSelected3, setskinSelected3] = useState(startingSkins[3]);
+  const [skinSelected4, setskinSelected4] = useState(startingSkins[4]);
+  const [skinSelected5, setskinSelected5] = useState(startingSkins[5]);
+  const [skinSelected6, setskinSelected6] = useState(startingSkins[6]);
+  const [skinSelected7, setskinSelected7] = useState(startingSkins[7]);
+  const [skinSelected8, setskinSelected8] = useState(startingSkins[8]);
+  const [skinSelected9, setskinSelected9] = useState(startingSkins[9]);
+  const skinSelectedList = [
+    skinSelected0,
+    skinSelected1,
+    skinSelected2,
+    skinSelected3,
+    skinSelected4,
+    skinSelected5,
+    skinSelected6,
+    skinSelected7,
+    skinSelected8,
+    skinSelected9,
+  ];
+  const skinSelectedListupdaters = [
+    setskinSelected0,
+    setskinSelected1,
+    setskinSelected2,
+    setskinSelected3,
+    setskinSelected4,
+    setskinSelected5,
+    setskinSelected6,
+    setskinSelected7,
+    setskinSelected8,
+    setskinSelected9,
+  ];
+
   if (localStorage.getItem("InProcess") == "1" && inProcess == 0) {
     setInProcess(1);
     let inMemRarity = localStorage.getItem("rarity");
@@ -90,6 +124,12 @@ const CreatePage = () => {
     }
   }
 
+  function refreshStates() {
+    for (let i = 0; i < 10; i++) {
+      skinSelectedListupdaters[i]({ empty: true, key: 9, skinName: "" });
+    }
+  }
+
   const handleSubmit = () => {
     if (rarity != "" && title != "") {
       setInProcess(1);
@@ -102,7 +142,7 @@ const CreatePage = () => {
       for (let i = 0; i < 10; i++) {
         localStorage.setItem(
           "skin" + i.toString(),
-          skinsSelected[i]["skinName"]
+          skinSelectedList[i]["skinName"]
         );
       }
     } else {
@@ -112,8 +152,8 @@ const CreatePage = () => {
   };
 
   function copySkin(skinName: string) {
-    for (var i = 0; i < skinsSelected.length; i++) {
-      if (skinsSelected[i].empty == true) {
+    for (var i = 0; i < skinSelectedList.length; i++) {
+      if (skinSelectedList[i].empty == true) {
         updateSkinSelection(i, skinName);
         break;
       }
@@ -131,32 +171,18 @@ const CreatePage = () => {
       localStorage.removeItem("skin" + i.toString());
     }
 
-    setskinsSelected(startingSkins);
+    refreshStates();
   };
 
   function updateSkinSelection(key: number, skinname: string) {
     if (skinname === "") {
-      const currentList = [];
-      for (var i = 0; i < skinsSelected.length; i++) {
-        if (i == key) {
-          currentList.push({ empty: true, key: key, skinName: skinname });
-          continue;
-        }
-        currentList.push(skinsSelected[i]);
-      }
-      setskinsSelected(currentList);
+      skinSelectedListupdaters[key]({ empty: true, key: key, skinName: "" });
     } else {
-      const currentList = [];
-      for (var i = 0; i < skinsSelected.length; i++) {
-        if (i == key) {
-          currentList.push({ empty: false, key: key, skinName: skinname });
-          localStorage.setItem("skin" + i.toString(), skinname);
-
-          continue;
-        }
-        currentList.push(skinsSelected[i]);
-      }
-      setskinsSelected(currentList);
+      skinSelectedListupdaters[key]({
+        empty: false,
+        key: key,
+        skinName: skinname,
+      });
     }
   }
 
@@ -170,16 +196,16 @@ const CreatePage = () => {
       createdBy: username,
       title: Title,
       rarity: Rarity,
-      skinName0: skinsSelected[0].skinName,
-      skinName1: skinsSelected[1].skinName,
-      skinName2: skinsSelected[2].skinName,
-      skinName3: skinsSelected[3].skinName,
-      skinName4: skinsSelected[4].skinName,
-      skinName5: skinsSelected[5].skinName,
-      skinName6: skinsSelected[6].skinName,
-      skinName7: skinsSelected[7].skinName,
-      skinName8: skinsSelected[8].skinName,
-      skinName9: skinsSelected[9].skinName,
+      skinName0: skinSelectedList[0].skinName,
+      skinName1: skinSelectedList[1].skinName,
+      skinName2: skinSelectedList[2].skinName,
+      skinName3: skinSelectedList[3].skinName,
+      skinName4: skinSelectedList[4].skinName,
+      skinName5: skinSelectedList[5].skinName,
+      skinName6: skinSelectedList[6].skinName,
+      skinName7: skinSelectedList[7].skinName,
+      skinName8: skinSelectedList[8].skinName,
+      skinName9: skinSelectedList[9].skinName,
     };
 
     const response = await fetch(url, {
@@ -197,8 +223,8 @@ const CreatePage = () => {
 
   function attemptContractSubmit() {
     let filledOut = true;
-    for (var i = 0; i < skinsSelected.length; i++) {
-      if (skinsSelected[i].empty == true) {
+    for (var i = 0; i < 10; i++) {
+      if (skinSelectedList[i].empty == true) {
         filledOut = false;
       }
     }
@@ -338,7 +364,7 @@ const CreatePage = () => {
         <SkinGrid
           updateSkinSelection={updateSkinSelection}
           copySkin={copySkin}
-          skinsSelected={skinsSelected}
+          skinsSelected={skinSelectedList}
           rarity={rarity}
         ></SkinGrid>
         <Box>
