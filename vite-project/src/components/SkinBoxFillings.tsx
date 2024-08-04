@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 interface Skin {
   skinID: number;
@@ -22,10 +23,6 @@ interface Props {
 const styleImg = {
   width: "175px",
   height: "auto",
-};
-const styleTitle = {
-  paddingTop: "20px",
-  margin: "0",
 };
 
 const styleX = {
@@ -70,17 +67,27 @@ export default function SkinBoxFillings({
     <>
       <div style={styleDiv}>
         {copySkin != null && (
-          <p onClick={() => copySkin(currentSkin?.skinName)} style={styleX}>
-            Copy
-          </p>
+          <Box marginLeft="10px" marginTop="5px">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/14/14896.png"
+              width="15px"
+              height="15px"
+              onClick={() => copySkin(currentSkin?.skinName)}
+              style={styleX}
+            ></img>
+          </Box>
         )}
         {copySkin != null && (
-          <p onClick={() => updateSkinSelection()} style={styleX}>
-            X
-          </p>
+          <Box marginRight="10px" marginTop="5px">
+            <p onClick={() => updateSkinSelection()} style={styleX}>
+              X
+            </p>
+          </Box>
         )}
       </div>
-      <p style={styleTitle}>{currentSkin?.skinName}</p>
+      <Typography variant="body1" padding="0px">
+        {currentSkin?.skinName}
+      </Typography>
       <img style={styleImg} src={currentSkin?.imageUrl}></img>
     </>
   );

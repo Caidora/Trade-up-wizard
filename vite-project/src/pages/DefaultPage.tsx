@@ -97,7 +97,7 @@ const DefaultPage = () => {
             <img
               width="500rem"
               height="auto"
-              src="https://cdn.sanity.io/images/dmtcrhxp/production/3a23a846884f1cf4fa8c5ab5b3ca913f23603c7d-1920x1080.jpg"
+              src="https://cdn.akamai.steamstatic.com/apps/csgo/images/csgo_react/social/cs2.jpg"
             ></img>
             <br></br>
             <NavItem link="/create">Create</NavItem>

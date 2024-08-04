@@ -68,8 +68,13 @@ export default function SkinGrid({
 
   if (shareScreen == undefined) {
     return (
-      <Box display="flex" justifyContent="flex-start">
-        <Box width="100%">
+      <Box
+        display="flex"
+        justifyContent="flex-start"
+        marginLeft="2rem"
+        marginRight="2rem"
+      >
+        <Box color="black" width="100%">
           <Grid container rowSpacing={4}>
             {skinsSelected.map((value, index) => (
               <Grid xs={2.4} item key={index}>
@@ -85,8 +90,8 @@ export default function SkinGrid({
             ))}
           </Grid>
         </Box>
-        <MyBox display="block" width="25%">
-          <Typography marginTop="2rem">Trade up stats</Typography>
+        <MyBox display="block" width="25%" color="black">
+          <Typography marginTop="2rem">Trade up stats (WiP)</Typography>
           <MyBoxCont>
             <Typography>Price</Typography>
             <Typography>$53.99</Typography>
@@ -105,7 +110,7 @@ export default function SkinGrid({
   } else {
     return (
       <Box display="flex" justifyContent="flex-start">
-        <Box width="100%">
+        <Box width="100%" color="black">
           <Grid container rowSpacing={4}>
             {skinsSelected.map((value, index) => (
               <Grid xs={2.4} item key={index}>
@@ -121,8 +126,8 @@ export default function SkinGrid({
             ))}
           </Grid>
         </Box>
-        <MyBox display="block" width="25%">
-          <Typography marginTop="2rem">Trade up stats</Typography>
+        <MyBox color="black" display="block" width="25%">
+          <Typography marginTop="2rem">Trade up stats (WiP)</Typography>
           <MyBoxCont>
             <Typography>Price</Typography>
             <Typography>$53.99</Typography>

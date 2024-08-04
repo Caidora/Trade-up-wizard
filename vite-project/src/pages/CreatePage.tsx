@@ -126,7 +126,7 @@ const CreatePage = () => {
 
   function refreshStates() {
     for (let i = 0; i < 10; i++) {
-      skinSelectedListupdaters[i]({ empty: true, key: 9, skinName: "" });
+      skinSelectedListupdaters[i]({ empty: true, key: i, skinName: "" });
     }
   }
 
@@ -175,14 +175,19 @@ const CreatePage = () => {
   };
 
   function updateSkinSelection(key: number, skinname: string) {
+    console.log(key);
     if (skinname === "") {
       skinSelectedListupdaters[key]({ empty: true, key: key, skinName: "" });
+      let item = "skin" + key.toString();
+      localStorage.removeItem(item);
     } else {
       skinSelectedListupdaters[key]({
         empty: false,
         key: key,
         skinName: skinname,
       });
+      let item = "skin" + key.toString();
+      localStorage.setItem(item, skinname);
     }
   }
 
@@ -367,7 +372,7 @@ const CreatePage = () => {
           skinsSelected={skinSelectedList}
           rarity={rarity}
         ></SkinGrid>
-        <Box>
+        <Box marginTop="1rem">
           <PrimaryButton
             submitFunction={attemptContractSubmit}
             bColour="secondary.main"

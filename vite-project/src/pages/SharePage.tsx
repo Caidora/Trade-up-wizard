@@ -95,7 +95,9 @@ const SharePage = () => {
       {loading == false && (
         <>
           <Typography variant="h1">{Contract?.title}</Typography>
-          <Typography>Made By {Contract?.createdBy}</Typography>
+          <Typography marginBottom="2rem">
+            Made By: {Contract?.createdBy}
+          </Typography>
           <SkinGrid
             shareScreen
             skinsSelected={skinsSelected}
