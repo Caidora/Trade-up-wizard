@@ -65,6 +65,12 @@ export default function ActionBox({
         <PrimaryButton bColour="secondary.main" submitFunction={submitFunction}>
           {priButton}
         </PrimaryButton>
+        {title == "Signup" && (
+          <Typography variant="body1">
+            Please note that the password is stored in plaintext. Feel free to
+            use password as your password.
+          </Typography>
+        )}
       </Box>
     </MyBox>
   );

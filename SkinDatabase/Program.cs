@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
             builder
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .WithOrigins("http://localhost:5173", "https://purple-ground-05b7a451e.5.azurestaticapps.net/");
+            .WithOrigins("http://localhost:5173", "https://purple-ground-05b7a451e.5.azurestaticapps.net");
         });
 });
 
